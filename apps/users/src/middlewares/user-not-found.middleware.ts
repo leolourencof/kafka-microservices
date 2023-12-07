@@ -1,0 +1,20 @@
+import { Injectable, NestMiddleware, NotFoundException } from '@nestjs/common';
+import { Request, Response, NextFunction } from 'express';
+import { PrismaService } from '../database/database.service';
+
+@Injectable()
+export class UserNotFoundMiddleware implements NestMiddleware {
+  constructor(private readonly prismaService: PrismaService) {}
+
+  async use(req: Request, res: Response, next: NextFunction) {
+    const user = await this.prismaService.users.findFirst({
+      where: { id: req.params.id },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    next();
+  }
+}
