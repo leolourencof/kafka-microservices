@@ -4,6 +4,7 @@ import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
   const app = await NestFactory.create(EmailsModule);
+  app.enableCors();
 
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.KAFKA,
@@ -17,7 +18,7 @@ async function bootstrap() {
     },
   });
   await app.startAllMicroservices();
-
+  
   await app.listen(3002);
 }
 bootstrap();
