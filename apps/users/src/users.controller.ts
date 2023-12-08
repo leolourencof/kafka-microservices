@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   HttpCode,
+  HttpStatus,
   Param,
   ParseUUIDPipe,
   Patch,
@@ -40,7 +41,7 @@ export class UsersController {
     return this.usersService.update(id, data);
   }
 
-  @HttpCode(204)
+  @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':id')
   async delete(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
     await this.usersService.delete(id);
